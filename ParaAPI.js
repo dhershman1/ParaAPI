@@ -37,10 +37,11 @@ API.prototype = {
     moduleHandler: function() {
         var modules = {};
         modules = {
-            PrefixHandler: new PrefixHandler(this.Title, this.Author, V(1, 0, 0), [APIData, this.Config]),
-            PunishmentSystem: new PunishmentSystem(this.Title, this.Author, V(1, 0, 0), [APIData, this.Config]),
-            Ranks: new RanksSystem(this.Title, this.Author, V(1, 0, 0), [APIData, this.Config]),
-            Achievements: new Achievements(this.Title, this.Author, V(1, 0, 0), [APIData, this.Config])
+            PrefixHandler: new PrefixHandler(this.Plugin, [APIData, this.Config]) || false,
+            PunishmentSystem: new PunishmentSystem([APIData, this.Config]) || false,
+            Ranks: new RanksSystem(this.Plugin, [APIData, this.Config]) || false,
+            Achievements: new AchievementsSystem(this.Plugin, [APIData, this.Config]) || false,
+            Rules: new nRules(this.Plugin, [APIData, this.Config]) || false
         };
         print("Modules");
         print("----------------------------------");
@@ -61,6 +62,10 @@ API.prototype = {
                 print("[Modules]: Located Ranks Module.");
                 print("[Ranks]: Loaded Successfully");
             }
+            if (modules.Rules) {
+                print("[Modules]: Located Rules Module");
+                print("[Rules]: Loaded Successfully");
+            }
         } else {
             print("[Modules]: No Modules Located");
         }
@@ -79,7 +84,8 @@ API.prototype = {
         }
         this.Config.Modules = this.Config.Modules || {};
         this.Config.Permissions = this.Config.Permissions || {
-            "staff": "isStaff"
+            "staff": "isStaff",
+            "clear": "canClear"
         };
 
     },

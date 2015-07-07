@@ -1,7 +1,4 @@
-function Achievements(title, author, version, args) {
-  this.Title = title;
-  this.Author = author;
-  this.Version = version;
+function AchievementsSystem(api, args) {
   this.RanksData = args[0];
   this.RanksConfig = args[1];
 
@@ -31,6 +28,16 @@ function Achievements(title, author, version, args) {
   };
 }
 
-Achievements.prototype = {
+AchievementsSystem.prototype = {
 
 };
+
+var Achievements = {
+    Title: "Achievements Module",
+    Author: "Killparadise",
+    Version: V(1, 0, 0),
+    Init: function() {
+    print("Achievements Installed. Please Reload ParaAPI");
+
+  }
+}

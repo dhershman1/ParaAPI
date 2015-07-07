@@ -1,7 +1,4 @@
-function RanksSystem(title, author, version, args) {
-    this.Title = title;
-    this.Author = author;
-    this.Version = version;
+function RanksSystem(api, args) {
     this.moduleData = args[0];
     this.moduleConfig = args[1];
     this.moduleConfig.Modules["Ranks"].Version = this.Version;
@@ -30,10 +27,17 @@ function RanksSystem(title, author, version, args) {
             deathMsgs: true
         },
         Permissions: {
-
+            "wipe": "canWipe",
+            "noadmin": "turnOffAdmins",
+            "kset": "canSetKarma",
+            "kcheck": "canCheckKarma",
+            "krem": "canRemKarma",
+            "kadd": "canAddKarma",
+            "create": "canCreate",
+            "delete": "canDelete",
         }
     };
-    command.AddChatCommand("r", this.Plugin, "rankCmd");
+    command.AddChatCommand("r", api, "rankCmd");
 }
 
 RanksSystem.prototype = {
@@ -114,7 +118,7 @@ RanksSystem.prototype = {
     },
 
     rankCmd: function(player, cmd, args) {
-      
+
     },
 
     OnPlayerChat: function(arg) {
@@ -133,3 +137,13 @@ RanksSystem.prototype = {
         return false;
     }
 };
+
+var Ranks = {
+    Title: "Ranks",
+    Author: "Killparadise",
+    Version: V(1, 0, 0),
+    Init: function() {
+        print("Ranks Installed. Please Reload ParaAPI");
+
+    }
+}

@@ -1,4 +1,5 @@
-function prefixHandler(args) {
+function prefixHandler(api, args) {
+  command.AddChatCommand("ph", api, "prefixUpdate");
   if (args.length > 0) {
     this.init(args);
   }
