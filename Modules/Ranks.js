@@ -29,10 +29,6 @@ function RanksSystem(api, args) {
         Permissions: {
             "wipe": "canWipe",
             "noadmin": "turnOffAdmins",
-            "kset": "canSetKarma",
-            "kcheck": "canCheckKarma",
-            "krem": "canRemKarma",
-            "kadd": "canAddKarma",
             "create": "canCreate",
             "delete": "canDelete",
         }

@@ -36,36 +36,26 @@ API.prototype = {
      ------------------------------------------------------------------*/
     moduleHandler: function() {
         var modules = {};
+        var count = 0;
         modules = {
             PrefixHandler: new PrefixHandler(this.Plugin, [APIData, this.Config]) || false,
             PunishmentSystem: new PunishmentSystem([APIData, this.Config]) || false,
             Ranks: new RanksSystem(this.Plugin, [APIData, this.Config]) || false,
             Achievements: new AchievementsSystem(this.Plugin, [APIData, this.Config]) || false,
-            Rules: new nRules(this.Plugin, [APIData, this.Config]) || false
+            Rules: new nRules(this.Plugin, [APIData, this.Config]) || false,
+            Karma: new karmaSystem(this.Plugin, [APIData, this.Config]) || false
         };
-        print("Modules");
+        print("Finding Modules...");
         print("----------------------------------");
-        if (modules.length) {
-            if (modules.PrefixHandler) {
-                print("[Modules]: Located Prefix Handler Module.");
-                print("[PrefixHandler]: Loaded Successfully");
-            }
-            if (modules.PunishmentSystem) {
-                print("[Modules]: Located Punishment Module.");
-                print("[Punishment]: Loaded Successfully");
-            }
-            if (modules.Achievements) {
-                print("[Modules]: Located Achievements Module.");
-                print("[Achievements]: Loaded Successfully");
-            }
-            if (modules.Ranks) {
-                print("[Modules]: Located Ranks Module.");
-                print("[Ranks]: Loaded Successfully");
-            }
-            if (modules.Rules) {
-                print("[Modules]: Located Rules Module");
-                print("[Rules]: Loaded Successfully");
-            }
+        for (var key in modules) {
+            if (modules[key]) {
+                count++;
+                print("[Modules]: Located " + key + " Module");
+                print("["+key+"]"+" Loaded Successfully");
+            } 
+        }
+        if (count > 0) {
+            print("[API]: Total Modules Loaded: " + count.toString());
         } else {
             print("[Modules]: No Modules Located");
         }
