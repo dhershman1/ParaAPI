@@ -462,8 +462,8 @@ chatHandler.prototype = {
             for (var key in this.Config.Ranks.Main) {
                 if (this.Config.Prefixes.Main[key] === APIData.PlayerData[steamID].Title) {
                     if (this.Config.Settings.AllowColor) {
-                        ranksColor = this.Config.Ranks.Main[key].color,
-                            chatColor = this.Config.Settings.ChatColor;
+                        ranksColor = this.Config.Ranks.Main[key].color;
+                        chatColor = this.Config.Settings.ChatColor;
                     }
                     ranksSetup = ranksColor + this.Config.Ranks.Main[key].title + chatColor;
                 }
@@ -492,7 +492,7 @@ chatHandler.prototype = {
             for (var key in this.Config.Prefixes.Main) {
                 if (this.Config.Prefixes.Main[key] === APIData.PlayerData[steamID].Prefix) {
                     if (this.Config.Settings.AllowColor) {
-                        var prefixColor = this.Config.Ranks.Main[key].color;
+                        prefixColor = this.Config.Ranks.Main[key].color;
                     }
                     prefixSetup = prefixColor + this.Config.Prefixes.Main[key].Prefix;
                 }
@@ -501,5 +501,9 @@ chatHandler.prototype = {
             prefixSetup = "";
         }
         return prefixSetup;
+    },
+
+    communicate: function(args) {
+        
     }
 };
