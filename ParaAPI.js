@@ -10,7 +10,7 @@ API.prototype = {
         this.LoadDefaultConfig();
         this.getData();
         this.registerPermissions();
-
+        this.moduleHandler();
     },
 
     /*-----------------------------------------------------------------
@@ -36,26 +36,32 @@ API.prototype = {
      ------------------------------------------------------------------*/
     moduleHandler: function() {
         var modules = {};
-        var count = 0;
         modules = {
-            PrefixHandler: new PrefixHandler(this.Plugin, [APIData, this.Config]) || false,
-            PunishmentSystem: new PunishmentSystem([APIData, this.Config]) || false,
-            Ranks: new RanksSystem(this.Plugin, [APIData, this.Config]) || false,
-            Achievements: new AchievementsSystem(this.Plugin, [APIData, this.Config]) || false,
-            Rules: new nRules(this.Plugin, [APIData, this.Config]) || false,
-            Karma: new karmaSystem(this.Plugin, [APIData, this.Config]) || false
+            Ranks: new RanksSystem(this.Title, this.Author, V(1, 0, 0), [APIData, this.Config]) || null
+            // PrefixHandler: new PrefixHandler(this.Title, this.Author, V(1, 0, 0), [APIData, this.Config]) || null,
+            // PunishmentSystem: new PunishmentSystem(this.Title, this.Author, V(1, 0, 0), [APIData, this.Config]) || null,
+            // Achievements: new Achievements(this.Title, this.Author, V(1, 0, 0), [APIData, this.Config]) || null
         };
-        print("Finding Modules...");
+        print("Modules");
         print("----------------------------------");
-        for (var key in modules) {
-            if (modules[key]) {
-                count++;
-                print("[Modules]: Located " + key + " Module");
-                print("["+key+"]"+" Loaded Successfully");
-            } 
-        }
-        if (count > 0) {
-            print("[API]: Total Modules Loaded: " + count.toString());
+        print(modules.Ranks);
+        if (modules.length) {
+            if (modules.PrefixHandler) {
+                print("[Modules]: Located Prefix Handler Module.");
+                print("[PrefixHandler]: Loaded Successfully");
+            }
+            if (modules.PunishmentSystem) {
+                print("[Modules]: Located Punishment Module.");
+                print("[Punishment]: Loaded Successfully");
+            }
+            if (modules.Achievements) {
+                print("[Modules]: Located Achievements Module.");
+                print("[Achievements]: Loaded Successfully");
+            }
+            if (modules.Ranks) {
+                print("[Modules]: Located Ranks Module.");
+                print("[Ranks]: Loaded Successfully");
+            }
         } else {
             print("[Modules]: No Modules Located");
         }
@@ -71,11 +77,10 @@ API.prototype = {
             ChatNameColor: "#6699FF",
             StaffChatNameColor: "#009900",
             AllowColor: true
-        }
+        };
         this.Config.Modules = this.Config.Modules || {};
         this.Config.Permissions = this.Config.Permissions || {
-            "staff": "isStaff",
-            "clear": "canClear"
+            "staff": "isStaff"
         };
 
     },
@@ -372,7 +377,7 @@ API.prototype = {
             victim: data.victim,
             killerID: rust.UserIDFromPlayer(data.killer),
             victimID: rust.UserIDFromPlayer(data.victim)
-        }
+        };
         return cbObj;
     }
 
@@ -392,7 +397,7 @@ function chatHandler(data) {
     var newMsg = "";
     newMsg = this.init(data);
     return newMsg;
-};
+}
 
 chatHandler.prototype = {
 
@@ -418,9 +423,9 @@ chatHandler.prototype = {
             - @data - Object - A data object containing chat data
      ------------------------------------------------------------------*/
     buildMsg: function(data) {
-        var formattedMsg = ""
+        var formattedMsg = "";
         var msg = data.msg;
-        var useColor = ""
+        var useColor = "";
         if (this.Config.Settings.AllowColor && permission.UserHasPermission(data.steamID, "isStaff")) {
             useColor = "<color=" + this.Config.Settings.StaffChatNameColor + ">";
         } else {
@@ -452,8 +457,8 @@ chatHandler.prototype = {
             for (var key in this.Config.Ranks.Main) {
                 if (this.Config.Prefixes.Main[key] === APIData.PlayerData[steamID].Title) {
                     if (this.Config.Settings.AllowColor) {
-                        ranksColor = this.Config.Ranks.Main[key].color;
-                        chatColor = this.Config.Settings.ChatColor;
+                        ranksColor = this.Config.Ranks.Main[key].color,
+                            chatColor = this.Config.Settings.ChatColor;
                     }
                     ranksSetup = ranksColor + this.Config.Ranks.Main[key].title + chatColor;
                 }
@@ -491,9 +496,5 @@ chatHandler.prototype = {
             prefixSetup = "";
         }
         return prefixSetup;
-    },
-
-    communicate: function(args) {
-        
     }
 };
